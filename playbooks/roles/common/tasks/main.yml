@@ -1,0 +1,42 @@
+---
+
+- name: Installing Common Packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - unzip
+    - wget
+    - net-tools
+
+- name: Creating consul Group | {{ consul_group }}
+  group:
+    name: "{{ consul_group }}"
+    state: present
+
+- name: Creating consul User | {{ consul_user }}
+  user:
+    name: "{{ consul_user }}"
+    state: present
+    group: "{{ consul_group }}"
+
+- name: Creating Configs folder for Consul | /etc/consul.d
+  file:
+    dest: "/etc/consul.d/{{ item }}"
+    state: directory
+    recurse: true
+  with_items:
+    - bootstrap
+    - server
+    - client
+
+- name: Creating Consul Dirs | Data- {{ consul_data_dir }} | Install- {{ consul_install_dir }}
+  file:
+    dest: "{{ item }}"
+    state: directory
+    recurse: true
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  with_items:
+    - "{{ consul_data_dir }}"
+    - "{{ consul_ui_install_dir }}"

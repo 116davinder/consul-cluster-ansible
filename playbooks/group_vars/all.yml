@@ -1,0 +1,20 @@
+---
+consul_user: consul
+consul_group: consul
+
+consul_data_dir: /var/consul
+
+consul_datacenter_name: test-dav-1
+
+# Options INFO/DEBUG/WARN
+consul_log_level: INFO
+
+# latest stable version
+consul_version: 0.9.3
+
+# consul download url
+# Don't change below things
+consul_donwload_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip"
+consul_webui_donwload_url: "https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_web_ui.zip"
+consul_install_dir: /usr/local/bin
+consul_ui_install_dir: "{{ consul_data_dir }}/ui"

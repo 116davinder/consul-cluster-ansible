@@ -1,0 +1,16 @@
+{
+    "bootstrap": true,
+    "server": true,
+    "datacenter": "{{ consul_datacenter_name }}",
+    "data_dir": "{{ consul_data_dir }}",
+    "encrypt": "{{ consul_encrypt_key.stdout }}",
+    "skip_leave_on_interrupt": true,
+    "leave_on_terminate": false,
+    "advertise_addr": "{{ ansible_host }}",
+    "bind_addr": "{{ ansible_host }}",
+    "log_level": "{{ consul_log_level }}",
+    "addresses": {
+    "http": "0.0.0.0",
+    "dns": "0.0.0.0"
+      }
+}

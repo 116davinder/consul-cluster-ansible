@@ -1,0 +1,44 @@
+---
+
+- name: Downloading Consul | {{ consul_version }}
+  unarchive:
+    src: "{{ consul_donwload_url }}"
+    dest: "{{ consul_install_dir }}"
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+    remote_src: yes
+
+- name: Generating Encrypt Key
+  shell: "{{ consul_install_dir }}/consul keygen"
+  run_once: true
+  register: consul_encrypt_key
+
+- debug:
+    msg: "{{ consul_encrypt_key.stdout }}"
+
+- name: Creating Bootstrap Config.json
+  template:
+    src: bootstrap.json.j2
+    dest: /etc/consul.d/bootstrap/bootstrap.json
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  when:
+    - inventory_hostname in groups["consul-bootstrap"]
+
+- name: Creating Server Config.json
+  template:
+    src: server_config.json.j2
+    dest: /etc/consul.d/server/config.json
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  when:
+    - inventory_hostname in groups["consul-server"]
+
+- name: Creating Client Config.json
+  template:
+    src: client_config.json.j2
+    dest: /etc/consul.d/client/config.json
+    owner: "{{ consul_user }}"
+    group: "{{ consul_group }}"
+  when:
+    - inventory_hostname in groups["consul-client"]

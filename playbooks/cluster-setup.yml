@@ -1,0 +1,20 @@
+---
+
+- name: Applying Common Tasks
+  gather_facts: true
+  hosts: consul-common
+  roles:
+    - common
+
+- name: Installing Consul
+  gather_facts: true
+  hosts: consul-common
+  roles:
+    - install
+
+- name: Starting Consul Service
+  gather_facts: true
+  hosts: consul-common
+  serial: 1
+  roles:
+    - service

@@ -1,0 +1,16 @@
+{
+    "server": false,
+    "datacenter": "{{ consul_datacenter_name }}",
+    "data_dir": "{{ consul_data_dir }}",
+    "ui_dir": "{{ consul_ui_install_dir }}",
+    "encrypt": "{{ consul_encrypt_key.stdout }}",
+    "log_level": "{{ consul_log_level }}",
+    "retry_join": [{% for server in groups["consul-server"] %}{% if not loop.last %}"{{ server }}",{% else %}"{{ server }}"{% endif %}{% endfor %}],
+    "start_join": [{% for server in groups["consul-server"] %}{% if not loop.last %}"{{ server }}",{% else %}"{{ server }}"{% endif %}{% endfor %}],
+    "advertise_addr": "{{ ansible_host }}",
+    "bind_addr": "{{ ansible_host }}",
+    "addresses": {
+    "http": "0.0.0.0",
+    "dns": "0.0.0.0"
+      }
+}

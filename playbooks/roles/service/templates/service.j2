@@ -1,0 +1,18 @@
+[Unit]
+Description=consul agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User={{ consul_user }}
+#EnvironmentFile=-/etc/sysconfig/consul
+Environment=GOMAXPROCS=2
+Restart=on-failure
+ExecStart={{ consul_install_dir }}/consul agent -config-dir=/etc/consul.d/{% if inventory_hostname in groups["consul-bootstrap"] %}bootstrap{% elif inventory_hostname in groups["consul-server"] %}server{% else %}client{% endif %}
+
+
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target
