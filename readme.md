@@ -1,10 +1,4 @@
-# Zookeeper Cluster Setup Using Ansible
-It will install Zookeeper cluster on 3 nodes for demo.
-
-## Notes
-```
-It will install openjdk 8 .
-```
+# Consul Cluster Setup Using Ansible
 
 ## Requirements
 * vagrant
